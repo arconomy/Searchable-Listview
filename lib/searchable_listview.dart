@@ -56,6 +56,7 @@ class SearchableList<T> extends StatefulWidget {
     this.reverse = false,
     this.sortPredicate,
     this.sortWidget,
+    this.onSortCallback,
     this.separatorBuilder,
     this.scrollController,
     this.closeKeyboardWhenScrolling = false,
@@ -117,6 +118,7 @@ class SearchableList<T> extends StatefulWidget {
     this.separatorBuilder,
     this.sortPredicate,
     this.sortWidget,
+    this.onSortCallback,
     this.scrollController,
     this.closeKeyboardWhenScrolling = false,
     this.displaySearchIcon = true,
@@ -175,6 +177,7 @@ class SearchableList<T> extends StatefulWidget {
     this.expansionTileEnabled = true,
     this.sortWidget,
     this.sortPredicate,
+    this.onSortCallback,
     this.displaySearchIcon = true,
     this.defaultSuffixIconColor = Colors.grey,
     this.defaultSuffixIconSize = 24,
@@ -229,6 +232,7 @@ class SearchableList<T> extends StatefulWidget {
     this.closeKeyboardWhenScrolling = false,
     this.sortWidget,
     this.sortPredicate,
+    this.onSortCallback,
     this.displaySearchIcon = true,
     this.defaultSuffixIconColor = Colors.grey,
     this.defaultSuffixIconSize = 24,
@@ -266,6 +270,10 @@ class SearchableList<T> extends StatefulWidget {
   /// Async callback that return list to be displayed with future builder
   /// to filter the [asyncListCallback] result you need provide [asyncListFilter]
   Future<List<T>?> Function()? asyncListCallback;
+
+  /// Callback just before sorting the searchable list
+  /// Allows the predicate to be modified before sorting
+  Function()? onSortCallback;
 
   /// Callback invoked when filtring the searchable list
   /// used when providing [asyncListCallback]
@@ -879,6 +887,7 @@ class _SearchableListState<T> extends State<SearchableList<T>> {
   }
 
   void sortList() {
+    widget.onSortCallback?.call();
     if (widget.asyncListCallback != null) {
       setState(() {
         filtredAsyncListResult.sort(widget.sortPredicate);

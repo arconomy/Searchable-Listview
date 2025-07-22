@@ -111,11 +111,12 @@ class SearchTextField extends StatelessWidget {
                   textAlign: textAlign,
                   focusNode: focusNode,
                   enabled: searchFieldEnabled,
-                  decoration: inputDecoration ??
-                      InputDecoration(
-                        labelText: labelText,
-                        suffixIcon: renderSuffixWidget(context),
-                      ),
+                  decoration: (inputDecoration != null
+                      ? inputDecoration!.copyWith(
+                          suffix: renderSuffixWidget(context),
+                        )
+                      : const InputDecoration()
+                          .copyWith(suffix: renderSuffixWidget(context))),
                   style: textStyle,
                   controller: searchTextController,
                   textInputAction: keyboardAction,
@@ -157,7 +158,7 @@ class SearchTextField extends StatelessWidget {
               child: clearIcon,
             ),
           if (sortWidget != null)
-            InkWell(
+            GestureDetector(
               onTap: () {
                 FocusScope.of(context).requestFocus(
                   FocusNode(),
