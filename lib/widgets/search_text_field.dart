@@ -86,7 +86,7 @@ class SearchTextField extends StatelessWidget {
                       focusNode: focusNode,
                       enabled: searchFieldEnabled,
                       decoration: inputDecoration?.copyWith(
-                        suffix: InkWell(
+                        suffix: GestureDetector(
                           onTap: () {
                             textController.text = '';
                             filterList(textController.text);
@@ -174,7 +174,7 @@ class SearchTextField extends StatelessWidget {
 
   Widget? renderClearIcon() {
     if (searchTextController!.text.isNotEmpty) {
-      return InkWell(
+      return GestureDetector(
         onTap: () {
           searchTextController?.clear();
           filterList(searchTextController?.text ?? '');
